@@ -1,13 +1,2 @@
 # iGenzZP.github.io
 # iGenzZP.github.io
-# iGenzZP.github.io
-# iGenzZP.github.io
-# iGenzZP.github.io
-# iGenzZP.github.io
-# iGenzZP.github.io
-# ZP.github.io
-# ZP.github.io
-# jehamyoung.github.io
-# ZP.github.io
-# ZP.github.io
-# iGenzZP.github.io

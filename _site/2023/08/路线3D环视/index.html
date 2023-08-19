@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=GVSvyUN4imjbAnwkRwivvxG9ImXyMqMD"></script>
+	<title>路线3D环视</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+    // GL版命名空间为BMapGL
+    // 按住鼠标右键，修改倾斜角和角度
+	var bmap = new BMapGL.Map("allmap");    // 创建Map实例
+	bmap.centerAndZoom(new BMapGL.Point(111.842431,21.575486), 17);  // 初始化地图,设置中心点坐标和地图级别
+    bmap.enableScrollWheelZoom(true);     // 开启鼠标滚轮缩放
+    bmap.setTilt(50);      // 设置地图初始倾斜角
+    // 定义关键帧
+    var keyFrames = [
+        {
+            center: new BMapGL.Point(111.838335,21.577654),
+            zoom:30,
+            tilt: 50,
+            heading: 0,
+            percentage: 0,
+        },
+        {
+            center: new BMapGL.Point(111.839305,21.577855),
+            zoom: 30,
+            tilt: 45,
+            heading: 0,
+            percentage: 0.1,
+        },
+        {
+            center: new BMapGL.Point(111.839745,21.578284),
+            zoom:30,
+            tilt: 45,
+            heading: 0,
+            percentage: 0.25
+        },
+        {
+            center: new BMapGL.Point(111.840742,21.577452),
+            zoom:30,
+            tilt: 30,
+            heading: -90,
+            percentage: 0.35
+        },
+        {
+            center: new BMapGL.Point(111.842072,21.576553),
+            zoom: 30,
+            tilt: 37.5,
+            heading: -90,
+            percentage: 0.45
+        },
+        {
+            center: new BMapGL.Point(111.844069,21.576519),
+            zoom: 30,
+            tilt: 37.5,
+            heading: -90,
+            percentage: 0.50
+        },
+        {
+            center: new BMapGL.Point(111.846042,21.577074),
+            zoom: 30,
+            tilt: 45,
+            heading: -180,
+            percentage: 0.55
+        },
+        {
+            center: new BMapGL.Point(111.846779,21.576049),
+            zoom:30,
+            tilt: 70,
+            heading: -180,
+            percentage: 0.75
+        },
+        {
+            center: new BMapGL.Point(111.84306,21.573965),
+            zoom:30,
+            tilt: 70,
+            heading: -270,
+            percentage: 0.85
+        },
+        {
+            center: new BMapGL.Point(111.837939,21.574965),
+            zoom:30,
+            tilt: 70,
+            heading: -360,
+            percentage: 0.95
+        },
+        {
+            center: new BMapGL.Point(111.837724,21.576805),
+            zoom:30,
+            tilt: 50,
+            heading: -360,
+            percentage: 1
+        },
+    ];
+
+    var opts = {
+        duration: 20000,
+        delay: 5000,
+        interation: 'INFINITE'
+    };
+
+    // 声明动画对象
+    var animation = new BMapGL.ViewAnimation(keyFrames, opts);
+    // 监听事件
+    animation.addEventListener('animationstart', function(e){console.log('start')});
+    animation.addEventListener('animationiterations', function(e){console.log('onanimationiterations')});
+    animation.addEventListener('animationend', function(e){console.log('end')});
+    // 开始播放动画
+    setTimeout('bmap.startViewAnimation(animation)', 3);
+</script>

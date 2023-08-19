@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>聚焦重要路段，改善交通状况</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <style>
+    body,
+    html,
+    #container {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: "微软雅黑";
+    }
+    #info-box {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+    }
+    </style>
+    <script src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=GVSvyUN4imjbAnwkRwivvxG9ImXyMqMD"></script>
+</head>
+<body>
+    <div id="container"></div>
+    <div id="info-box">点击标记点查看信息：</div>
+</body>
+</html>
+<script>
+    var map = new BMapGL.Map('container');
+    var point = new BMapGL.Point(111.84217,21.576225);
+    map.centerAndZoom(point, 18);
+
+// 创建多个标记点的信息
+    var markersData = [
+        {
+            point: new BMapGL.Point(111.838775,21.577368),
+            title: '广场南三巷前部路段（即京东便利店门前路口）',
+            content: '建议：在路口处设立指示牌指示行车方向',
+            photo:"\\images\\posts\\straight.jpg"
+        },
+        {
+            point: new BMapGL.Point(111.842063,21.576553),
+            title: '人民路与红星四巷交汇点',
+            content: '建议：在路口处设立指示牌，说明该路段前方变窄，提示车主不要驶入',
+            photo:"\\images\\posts\\narrow.jpg"
+        },
+        {
+            point: new BMapGL.Point(111.8446,21.576616),
+            title: '闸坡旅游文化街中段（闸坡中心小学附近）',
+            content: '建议将该路段视为闸坡旅游文化街的重点管理路段，相关部门应加派人手，对违停车辆进行管理，同时积极鼓励临街商户发挥自身作用，实现对该路段的精细化管理',
+            photo:"\\images\\posts\\nostop.jpg"
+        },
+        {
+            point: new BMapGL.Point(111.846765,21.576044),
+            title: '闸坡旅游文化街（即海味街）与旅游大道交汇处',
+            content: '建议：设立指示牌，提示禁停',
+            photo:"\\images\\posts\\nostop.jpg"
+        },
+        {
+            point: new BMapGL.Point(111.843145,21.574045),
+            title: '阳江十八子商场(海滨三路店)门前路口',
+            content: '禁止“拉客仔”占道拉客阻碍交通，减缓交通拥堵',
+            photo:"\\images\\posts\\p2.jpg"
+        },
+    ];
+
+// 遍历标记点信息数组，创建标记点和点击事件
+    for (var i = 0; i < markersData.length; i++) {
+        var markerInfo = markersData[i];
+        var markerPoint = markerInfo.point;
+
+    // 创建点标记
+        var marker = new BMapGL.Marker(markerPoint);
+        map.addOverlay(marker);
+
+    // 创建信息窗口
+        var opts = {
+            width: 200,
+            height: 100,
+            title: markerInfo.title
+        };
+        var infoWindow = new BMapGL.InfoWindow(markerInfo.content, opts);
+
+    // 点标记添加点击事 件
+        marker.addEventListener('click', (function (infoWin, markerP) {
+            return function () {
+                map.openInfoWindow(infoWin, markerP); // 开启信息窗口
+            };
+        })(infoWindow, markerPoint));
+    }
+
+    /*
+    marker.addEventListener('click', (function (infoWin, markerP, markerInfo) {
+        var infoBox = document.getElementById('info-box');
+        return function () {
+            map.openInfoWindow(infoWin, markerP); // 开启信息窗口
+            infoBox.textContent = '点击标记点查看信息' + markerInfo.title;
+
+            var photoElement = document.createElement('img');
+            photoElement.src = markerInfo.photo; // 使用照片URL
+            photoElement.style.width = '100%'; // 设置照片宽度
+            infoWin.setContent(infoWin.getContent() + photoElement.outerHTML);
+        };
+    })(infoWindow, markerPoint, markerInfo));*/
+    for (var i = 0; i < markersData.length; i++) {
+        var markerInfo = markersData[i];
+        var markerPoint = markerInfo.point;
+
+        var marker = new BMapGL.Marker(markerPoint);
+        map.addOverlay(marker);
+
+        var opts = {
+            width: 200,
+            height: 100,
+            title: markerInfo.title
+    };
+        var infoWindow = new BMapGL.InfoWindow(markerInfo.content, opts);
+
+    // 创建照片元素并添加到信息窗口内容中
+        var photoElement = document.createElement('img');
+        photoElement.src = markerInfo.photo; // 使用照片URL
+        photoElement.style.width = '100%'; // 设置照片宽度
+        infoWindow.setContent(markerInfo.content + '<br>' + photoElement.outerHTML);
+
+        marker.addEventListener('click', (function (infoWin, markerP) {
+            return function () {
+                map.openInfoWindow(infoWin, markerP);
+            };
+        })(infoWindow, markerPoint));}
+</script>
